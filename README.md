@@ -1,2 +1,2 @@
 # QCD2
-$\chi^2$ implementation
+Fitting functions via chi squared method.
