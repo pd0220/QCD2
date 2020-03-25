@@ -57,21 +57,29 @@ Eigen::MatrixXd readFile(std::string fileName)
 //       1st col --> some physical quantity (x)
 //       2nd col --> data (y)
 //       3rd col --> err (sigma)
+// argv[2] is highest degree of basis functions
 int main(int argc, char **argv)
 {
     // file name
     std::string fileName = "None";
-
+    // degree of highest basis function
+    int deg = -1;
     // check for arguments
-    if (argc > 1)
+    if (argc > 2)
     {
         fileName = argv[1];
+        deg = std::stoi(argv[2]);
     }
 
     // error check
     if (fileName == "None")
     {
         std::cout << "No file was given, or the file dose not exist or unavailable." << std::endl;
+        std::exit(-1);
+    }
+    else if(deg < 0)
+    {
+        std::cout << "No degree of basis functions was given." << std::endl;
         std::exit(-1);
     }
 
@@ -93,14 +101,14 @@ int main(int argc, char **argv)
     }
 
     // matrix for linear equation system
-    Eigen::MatrixXd MMatrix(length, 3);
+    Eigen::MatrixXd MMatrix(length, deg + 1);
 
     for (int i = 0; i < length; i++)
     {
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j <= deg; j++)
         {
             // basis function used on x divided by err
-            MMatrix(i, j) = std::pow(xData[i], j) / errData(i);
+            MMatrix(i, j) = std::pow(xData(i), j) / (double)errData(i);
         }
     }
 
