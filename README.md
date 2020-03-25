@@ -1,2 +1,2 @@
 # QCD2
-Chi^2 implementation
+$\chi^2$ implementation
