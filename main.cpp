@@ -77,7 +77,7 @@ int main(int argc, char **argv)
         std::cout << "No file was given, or the file dose not exist or unavailable." << std::endl;
         std::exit(-1);
     }
-    else if(deg < 0)
+    if(deg < 0)
     {
         std::cout << "No degree of basis functions was given." << std::endl;
         std::exit(-1);
@@ -101,16 +101,29 @@ int main(int argc, char **argv)
     }
 
     // matrix for linear equation system
-    Eigen::MatrixXd MMatrix(length, deg + 1);
+    Eigen::MatrixXd MMat(length, deg + 1);
 
     for (int i = 0; i < length; i++)
     {
         for (int j = 0; j <= deg; j++)
         {
             // basis function used on x divided by err
-            MMatrix(i, j) = std::pow(xData(i), j) / (double)errData(i);
+            MMat(i, j) = std::pow(xData(i), j) / (double)errData(i);
         }
     }
 
-    std::cout << MMatrix << std::endl;
+    // transposing the previous matrix
+    Eigen::MatrixXd MMatTranspose = MMat.transpose();
+
+    // RHS vector for linear equation system
+    Eigen::VectorXd bVec(length);
+
+    for (int i = 0; i < length; i++)
+    {
+        // data point y divided by err
+        bVec(i) = yData(i) / errData(i);
+    }
+
+    // solving the linear equqation system and write fitted coefficients to screen
+    std::cout << (MMatTranspose * MMat).fullPivLu().solve(MMatTranspose * bVec) << std::endl;
 }
