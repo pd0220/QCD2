@@ -77,7 +77,7 @@ int main(int argc, char **argv)
         std::cout << "No file was given, or the file dose not exist or unavailable." << std::endl;
         std::exit(-1);
     }
-    if(deg < 0)
+    if (deg < 0)
     {
         std::cout << "No degree of basis functions was given." << std::endl;
         std::exit(-1);
