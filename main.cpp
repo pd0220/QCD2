@@ -100,6 +100,8 @@ int main(int argc, char **argv)
         xData(i) = rawDataMat(i, 0), yData(i) = rawDataMat(i, 1), errData(i) = rawDataMat(i, 2);
     }
 
+    std::cout << xData << std::endl;
+
     // matrix for linear equation system
     Eigen::MatrixXd MMat(length, deg + 1);
 
@@ -111,6 +113,8 @@ int main(int argc, char **argv)
             MMat(i, j) = std::pow(xData(i), j) / (double)errData(i);
         }
     }
+
+    std::cout << MMat << std::endl;
 
     // transposing the previous matrix
     Eigen::MatrixXd MMatTranspose = MMat.transpose();
